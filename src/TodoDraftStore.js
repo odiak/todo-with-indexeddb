@@ -1,6 +1,5 @@
 import {ReduceStore} from 'flux/utils';
 import {AppActionTypes} from './AppActionTypes';
-import {AppDispatcher} from './AppDispatcher';
 
 export class TodoDraftStore extends ReduceStore {
   getInitialState() {

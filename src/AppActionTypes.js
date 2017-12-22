@@ -1,4 +1,5 @@
 export const AppActionTypes = {
+  RESTORE_TODOS: null,
   EDIT_TODO_DRAFT: null,
   ADD_TODO: null,
   TOGGLE_TODO: null,

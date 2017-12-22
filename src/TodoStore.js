@@ -4,7 +4,10 @@ import {AppActionTypes} from './AppActionTypes';
 import {Todo} from './Todo';
 
 function genId() {
-  return (new Array(10)).fill(null).map(() => Math.floor(Math.random() * 16).toString(16));
+  return (new Array(10))
+    .fill(null)
+    .map(() => Math.floor(Math.random() * 16).toString(16))
+    .join('');
 }
 
 export class TodoStore extends ReduceStore {
@@ -14,13 +17,16 @@ export class TodoStore extends ReduceStore {
 
   reduce(state, action) {
     switch (action.type) {
+      case AppActionTypes.RESTORE_TODOS:
+        return action.todos.reduce((map, todo) => {
+          return map.set(todo.id, new Todo(todo));
+        }, OrderedMap());
+
       case AppActionTypes.ADD_TODO: {
-        let id = genId();
-        return state.set(id, new Todo({
-          id,
-          text: action.text,
-          done: false,
-        }));
+        if (action.todo.text === '') {
+          return state;
+        }
+        return state.set(action.todo.id, new Todo(action.todo));
       }
 
       case AppActionTypes.TOGGLE_TODO:

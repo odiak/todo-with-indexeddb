@@ -4,6 +4,7 @@ import {AppActions} from './AppActions';
 import {AppDispatcher} from './AppDispatcher';
 import {TodoStore} from './TodoStore';
 import {TodoDraftStore} from './TodoDraftStore';
+import {db} from './db';
 
 let todoStore = new TodoStore(AppDispatcher);
 let todoDraftStore = new TodoDraftStore(AppDispatcher);
