@@ -1,21 +1,43 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
+export const App = (props) => {
+  const {todos, todoDraft, addTodo, editTodoDraft, toggleTodo, removeTodo} = props;
 
-export default App;
+  const todoListItems = [...todos.values()].reverse().map((todo) => (
+    <li
+      key={todo.id}
+      className={[
+        todo.done ? 'done' : '',
+      ].join(' ')}>
+      <input
+        type="checkbox"
+        checked={todo.done}
+        onChange={() => toggleTodo(todo.id)}
+        />
+      <span className="text">{todo.text}</span>
+      <span
+        className="delete"
+        onClick={() => removeTodo(todo.id)}>delete</span>
+    </li>
+  ));
+
+  const handleKeyDownForNewTodo = (event) => {
+    if (event.keyCode === 13) {
+      addTodo(todoDraft);
+    }
+  };
+
+  return (
+    <div className="App">
+      <h1>Todo</h1>
+      <input type="text"
+        value={todoDraft}
+        onChange={(event) => editTodoDraft(event.target.value)}
+        onKeyDown={handleKeyDownForNewTodo}
+        autoFocus={true}
+        />
+      <ul>{todoListItems}</ul>
+    </div>
+  );
+};
