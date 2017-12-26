@@ -14,29 +14,9 @@ const dbPromise = new Promise((resolve, reject) => {
   };
 
   req.onsuccess = (event) => {
+    console.log(event.target.result);
     resolve(event.target.result);
   };
-});
-
-dbPromise.then((db) => {
-  console.log(db);
-
-  if(0){
-    const t = db.transaction(['todos'], 'readwrite');
-    const todoObjStore = t.objectStore('todos');
-    ['foo', 'bar', 'zzz'].forEach((text) => {
-      const req = todoObjStore.add({
-        id: Math.floor(Math.random() * 100000000).toString(16),
-        text,
-      });
-    });
-  }
-
-  {
-    const t = db.transaction(['todos']);
-    const todoObjStore = t.objectStore('todos');
-    console.log(todoObjStore);
-  }
 });
 
 function transaction(db, objectStoreNames, mode, callback) {

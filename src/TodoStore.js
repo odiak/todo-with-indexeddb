@@ -3,13 +3,6 @@ import {ReduceStore} from 'flux/utils';
 import {AppActionTypes} from './AppActionTypes';
 import {Todo} from './Todo';
 
-function genId() {
-  return (new Array(10))
-    .fill(null)
-    .map(() => Math.floor(Math.random() * 16).toString(16))
-    .join('');
-}
-
 export class TodoStore extends ReduceStore {
   getInitialState() {
     return OrderedMap();
