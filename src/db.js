@@ -30,17 +30,24 @@ function transaction(db, objectStoreNames, mode, callback) {
   return Promise.all([p, v]).then(([_, v]) => v);
 }
 
+function getAll(store) {
+  const request = store.getAll();
+  return new Promise((resolve, reject) => {
+    request.onsuccess = (event) => {
+      resolve(event.target.result);
+    };
+    request.onerror = (event) => {
+      reject(event.target.error);
+    };
+  });
+}
+
 export function loadTodos() {
   return dbPromise.then((db) => {
     return transaction(db, ['todos'], 'readonly', (t) => {
-      return new Promise((resolve, reject) => {
-        const todoObjStore = t.objectStore('todos');
-        const index = todoObjStore.index('timestamp');
-        index.getAll().onsuccess = (event) => {
-          console.log(event);
-          resolve(event.target.result);
-        };
-      });
+      const todoObjStore = t.objectStore('todos');
+      const index = todoObjStore.index('timestamp');
+      return getAll(index);
     });
   });
 }
